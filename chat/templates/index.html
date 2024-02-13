@@ -25,7 +25,7 @@
   document.getElementById('reload').onclick = reloadChats
 
   document.getElementById('sendMessage').onclick = function () {
-    const text = message.value
+    const text = document.getElementById('message').value
     fetch(`/create?message=${text}`)
   }
 
