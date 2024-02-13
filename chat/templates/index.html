@@ -1,0 +1,36 @@
+<h1>Hello chat</h1>
+
+<input id="message" type="text">
+<button id="sendMessage">send</button>
+
+<div id="chats">
+  {% for chat in chats %}
+  <div>
+    {{ chat }}
+  </div>
+  {% endfor %}
+</div>
+
+<button id="reload">Reload</button>
+
+<script>
+  async function reloadChats() {
+    let response = await fetch('/chats')
+    let json = await response.json()
+    let { chats } = json
+    let html = chats.map(chat => `<div>${chat}</div>`).join('\n')
+    document.getElementById('chats').innerHTML = html
+  }
+
+  document.getElementById('reload').onclick = reloadChats
+
+  document.getElementById('sendMessage').onclick = function () {
+    const text = message.value
+    fetch(`/create?message=${text}`)
+  }
+
+  setInterval(() => {
+    console.log(new Date())
+    reloadChats()
+  }, 2000)
+</script>
